@@ -8,9 +8,38 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Card",
+"class": "AttackCard",
+"language": "GDScript",
+"path": "res://Cards/AttackCard.gd"
+}, {
+"base": "Object",
+"class": "Card",
+"language": "GDScript",
+"path": "res://Cards/BaseCard.gd"
+}, {
+"base": "Node",
+"class": "CardManager",
+"language": "GDScript",
+"path": "res://CardManager/CardManager.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://Projectiles/BaseProjectile.gd"
+} ]
+_global_script_class_icons={
+"AttackCard": "",
+"Card": "",
+"CardManager": "",
+"Projectile": ""
+}
+
 [application]
 
 config/name="ScrollMage"
+run/main_scene="res://World/World.tscn"
 config/icon="res://icon.png"
 
 [gui]
@@ -61,6 +90,13 @@ down={
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="solid"
+2d_physics/layer_2="player"
+2d_physics/layer_3="enemies"
+2d_physics/layer_4="projectile"
 
 [physics]
 

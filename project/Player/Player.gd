@@ -5,6 +5,8 @@ export var speed := 200.0
 var _target : Node2D = null
 
 onready var _attack_range : Area2D = $AttackRange
+onready var _hinge : Node2D = $Hinge
+onready var _attack_point : Position2D = $Hinge/AttackPoint
 
 
 func _physics_process(delta:float)->void:
@@ -17,6 +19,8 @@ func _physics_process(delta:float)->void:
 	move_and_collide(direction * speed * delta)
 	
 	_get_new_target()
+	if _target != null:
+		_hinge.rotation = get_angle_to(_target.global_position)
 
 
 func _get_new_target()->void:
@@ -33,3 +37,22 @@ func _get_new_target()->void:
 
 func _draw()->void:
 	draw_circle(Vector2.ZERO, 10, Color.whitesmoke)
+
+
+func resolve_card(card:Card)->void:
+	match card.type:
+		Card.Type.ATTACK:
+			_attack(card)
+
+
+func _attack(card:AttackCard)->void:
+	if _target != null:
+		var projectile : Projectile = load(card.projectile_path).instance()
+		projectile.damage = card.damage
+		projectile.global_position = _attack_point.global_position
+		projectile.direction = get_angle_to(_target.global_position)
+		get_parent().add_child(projectile)
+
+
+func hit(_damage_taken:int)->void:
+	pass
