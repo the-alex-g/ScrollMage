@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://CardManager/CardManager.gd" type="Script" id=1]
+
+[node name="CardManager" type="Node"]
+script = ExtResource( 1 )
+
+[node name="Slot1Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Slot2Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Slot3Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="RefreshTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="RefreshTimer" to="." method="_on_RefreshTimer_timeout"]
