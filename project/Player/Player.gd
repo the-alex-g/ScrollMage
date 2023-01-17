@@ -47,11 +47,11 @@ func resolve_card(card:Card)->void:
 
 func _attack(card:AttackCard)->void:
 	if _target != null:
-		var projectile : Projectile = load(card.projectile_path).instance()
-		projectile.damage = card.damage
-		projectile.global_position = _attack_point.global_position
-		projectile.direction = get_angle_to(_target.global_position)
-		get_parent().add_child(projectile)
+		var attack : Attack = load(card.projectile_path).instance()
+		attack.damage = card.damage
+		attack.from = _attack_point.global_position
+		attack.target_point = _target.global_position
+		get_parent().add_child(attack)
 
 
 func hit(_damage_taken:int)->void:

@@ -4,10 +4,10 @@ extends Node
 signal used_card(card)
 
 var _deck := [
-	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Projectiles/BasicAttack.tscn"),
-	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Projectiles/BasicAttack.tscn"),
-	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Projectiles/BasicAttack.tscn"),
-	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Projectiles/BasicAttack.tscn"),
+	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
+	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
+	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
+	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
 ]
 var _slots_available := [true, true, true]
 var _cards := []
@@ -18,6 +18,7 @@ onready var _slot_timers := [
 	$Slot2Timer,
 	$Slot3Timer
 ]
+onready var _refresh_timer : Timer = $RefreshTimer
 
 
 func _ready()->void:
@@ -61,7 +62,7 @@ func _draw_card(to:int)->void:
 		_cards[to] = _deck[0]
 		_deck.remove(0)
 	else:
-		yield($RefreshTimer, "timeout")
+		yield(_refresh_timer, "timeout")
 		_draw_card(to)
 
 

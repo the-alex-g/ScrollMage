@@ -1,14 +1,15 @@
 class_name Projectile
-extends KinematicBody2D
+extends Attack
 
-export var speed := 100.0
+export var speed := 300.0
 
-var damage := 0
-var direction := 0.0
+func _ready()->void:
+	global_position = from
+	look_at(target_point)
 
 
 func _physics_process(delta:float)->void:
-	var collision := move_and_collide(Vector2.RIGHT.rotated(direction) * speed * delta)
+	var collision := move_and_collide(Vector2.RIGHT.rotated(rotation) * speed * delta)
 	if collision != null:
 		_resolve_collision(collision.collider)
 
