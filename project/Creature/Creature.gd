@@ -16,7 +16,6 @@ func _decay_statuses()->void:
 	# decay
 	for status in statuses.keys():
 		statuses[status] = max(0, statuses[status] - 1)
-		print(status, ": ", statuses[status])
 	
 	# wait, then run again
 	yield(get_tree().create_timer(status_decay_time), "timeout")

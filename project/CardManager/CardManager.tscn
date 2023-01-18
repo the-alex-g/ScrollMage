@@ -7,8 +7,3 @@ script = ExtResource( 1 )
 
 [node name="CastTimer" type="Timer" parent="."]
 one_shot = true
-
-[node name="RefreshTimer" type="Timer" parent="."]
-autostart = true
-
-[connection signal="timeout" from="RefreshTimer" to="." method="_on_RefreshTimer_timeout"]
