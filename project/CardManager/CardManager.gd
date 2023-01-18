@@ -13,15 +13,12 @@ var _deck := [
 	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
 	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
 ]
-var _slots_available := [true, true, true]
 var _cards := []
 var _discard := []
+var _can_cast := true
+var info : Dictionary setget , _get_info
 
-onready var _slot_timers := [
-	$Slot1Timer,
-	$Slot2Timer,
-	$Slot3Timer
-]
+onready var _cast_timer : Timer = $CastTimer
 onready var _refresh_timer : Timer = $RefreshTimer
 
 
@@ -32,28 +29,29 @@ func _ready()->void:
 
 
 func _process(_delta:float)->void:
-	if Input.is_action_just_pressed("spell_slot_1") and _slots_available[0]:
-		_use_slot(0)
-	if Input.is_action_just_pressed("spell_slot_2") and _slots_available[1]:
-		_use_slot(1)
-	if Input.is_action_just_pressed("spell_slot_3") and _slots_available[2]:
-		_use_slot(2)
+	if _can_cast:
+		if Input.is_action_just_pressed("spell_slot_1"):
+			_use_slot(0)
+		if Input.is_action_just_pressed("spell_slot_2"):
+			_use_slot(1)
+		if Input.is_action_just_pressed("spell_slot_3"):
+			_use_slot(2)
 
 
 func _use_slot(slot_index:int)->void:
 	if _cards[slot_index] != null:
 		
-		_slots_available[slot_index] = false
-		_slot_timers[slot_index].start(_cards[slot_index].cast_time)
+		_can_cast = false
+		_cast_timer.start(_cards[slot_index].cast_time)
 		
 		emit_signal("used_card", _cards[slot_index])
 		
 		_discard_card(slot_index)
 		
-		yield(_slot_timers[slot_index], "timeout")
+		yield(_cast_timer, "timeout")
 		
 		_draw_card(slot_index)
-		_slots_available[slot_index] = true
+		_can_cast = true
 
 
 func _discard_card(slot_index:int)->void:
@@ -78,3 +76,7 @@ func _refresh_card()->void:
 	if _discard.size() > 0:
 		_deck.append(_discard[0])
 		_discard.remove(0)
+
+
+func _get_info()->Dictionary:
+	return {"hand":_cards, "deck_size":_deck.size(), "discard_size":_discard.size()}

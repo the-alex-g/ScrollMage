@@ -5,13 +5,7 @@
 [node name="CardManager" type="Node"]
 script = ExtResource( 1 )
 
-[node name="Slot1Timer" type="Timer" parent="."]
-one_shot = true
-
-[node name="Slot2Timer" type="Timer" parent="."]
-one_shot = true
-
-[node name="Slot3Timer" type="Timer" parent="."]
+[node name="CastTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="RefreshTimer" type="Timer" parent="."]
