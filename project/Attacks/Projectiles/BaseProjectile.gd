@@ -16,7 +16,7 @@ func _physics_process(delta:float)->void:
 
 func _resolve_collision(collider:PhysicsBody2D)->void:
 	if collider.has_method("hit"):
-		collider.hit(damage)
+		collider.hit(damage, statuses)
 	
 	queue_free()
 

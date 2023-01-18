@@ -14,10 +14,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Attacks/Attack.gd"
 }, {
+"base": "MonsterAction",
+"class": "AttackAction",
+"language": "GDScript",
+"path": "res://Monsters/MonsterActions/AttackAction.gd"
+}, {
 "base": "Card",
 "class": "AttackCard",
 "language": "GDScript",
 "path": "res://Cards/AttackCard.gd"
+}, {
+"base": "MonsterAction",
+"class": "BoostAction",
+"language": "GDScript",
+"path": "res://Monsters/MonsterActions/BoostAction.gd"
 }, {
 "base": "Card",
 "class": "BoostCard",
@@ -39,6 +49,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Creature/Creature.gd"
 }, {
+"base": "MonsterAction",
+"class": "HexAction",
+"language": "GDScript",
+"path": "res://Monsters/MonsterActions/HexAction.gd"
+}, {
+"base": "Creature",
+"class": "Monster",
+"language": "GDScript",
+"path": "res://Monsters/BaseMonster.gd"
+}, {
+"base": "Object",
+"class": "MonsterAction",
+"language": "GDScript",
+"path": "res://Monsters/MonsterActions/MonsterAction.gd"
+}, {
 "base": "Creature",
 "class": "Player",
 "language": "GDScript",
@@ -48,16 +73,27 @@ _global_script_classes=[ {
 "class": "Projectile",
 "language": "GDScript",
 "path": "res://Attacks/Projectiles/BaseProjectile.gd"
+}, {
+"base": "AttackAction",
+"class": "RangedAttackAction",
+"language": "GDScript",
+"path": "res://Monsters/MonsterActions/RangedAttackAction.gd"
 } ]
 _global_script_class_icons={
 "Attack": "",
+"AttackAction": "",
 "AttackCard": "",
+"BoostAction": "",
 "BoostCard": "",
 "Card": "",
 "CardManager": "",
 "Creature": "",
+"HexAction": "",
+"Monster": "",
+"MonsterAction": "",
 "Player": "",
-"Projectile": ""
+"Projectile": "",
+"RangedAttackAction": ""
 }
 
 [application]

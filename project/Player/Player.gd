@@ -61,7 +61,12 @@ func _defense(card:BoostCard)->void:
 	_apply_statuses(card.statuses)
 
 
-func hit(damage_taken:int)->void:
+func _resolve_poison(poison:int)->void:
+	print("poisoned! ", poison)
+
+
+func hit(damage:int, applied_statuses:Dictionary)->void:
+	.hit(damage, applied_statuses)
 	# warning-ignore:narrowing_conversion
-	damage_taken = max(0, damage_taken - statuses.block)
-	print(damage_taken)
+	damage = max(0, damage - statuses.block)
+	print(damage)
