@@ -1,4 +1,5 @@
-extends KinematicBody2D
+class_name Player
+extends Creature
 
 export var speed := 200.0
 
@@ -43,6 +44,8 @@ func resolve_card(card:Card)->void:
 	match card.type:
 		Card.Type.ATTACK:
 			_attack(card)
+		Card.Type.DEFENSE:
+			_defense(card)
 
 
 func _attack(card:AttackCard)->void:
@@ -54,5 +57,11 @@ func _attack(card:AttackCard)->void:
 		get_parent().add_child(attack)
 
 
-func hit(_damage_taken:int)->void:
-	pass
+func _defense(card:BoostCard)->void:
+	_apply_statuses(card.statuses)
+
+
+func hit(damage_taken:int)->void:
+	# warning-ignore:narrowing_conversion
+	damage_taken = max(0, damage_taken - statuses.block)
+	print(damage_taken)

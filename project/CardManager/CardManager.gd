@@ -4,10 +4,14 @@ extends Node
 signal used_card(card)
 
 var _deck := [
-	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
-	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
-	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
-	AttackCard.new("Attack", "1 damage", 0.5, [], 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
+#	AttackCard.new("Attack", "1 damage", 0.5, [], {}, 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
+#	AttackCard.new("Attack", "1 damage", 0.5, [], {}, 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
+#	AttackCard.new("Attack", "1 damage", 0.5, [], {}, 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
+#	AttackCard.new("Attack", "1 damage", 0.5, [], {}, 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
+	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
+	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
+	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
+	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
 ]
 var _slots_available := [true, true, true]
 var _cards := []
