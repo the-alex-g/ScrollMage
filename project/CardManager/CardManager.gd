@@ -42,17 +42,20 @@ func _process(_delta:float)->void:
 func _use_slot(slot_index:int)->void:
 	if _cards[slot_index] != null:
 		
+		var wait_time : float = _cards[slot_index].cast_time
 		_can_cast = false
-		_cast_timer.start(_cards[slot_index].cast_time)
+		_cast_timer.start(wait_time / 2.0)
 		
 		emit_signal("used_card", _cards[slot_index])
-		
 		_use_card(slot_index)
 		
 		yield(_cast_timer, "timeout")
 		
-		_draw_card(slot_index)
 		_can_cast = true
+		
+		yield(get_tree().create_timer(wait_time / 2.0), "timeout")
+		
+		_draw_card(slot_index)
 
 
 func _use_card(slot_index:int)->void:
