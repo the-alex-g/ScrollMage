@@ -12,6 +12,7 @@ var _deck := [
 	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
 	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
 	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
+	HexCard.new("Poison", "3 poison", 1.0, [], {"poison":3}),
 ]
 var _cards := []
 var _lost := []

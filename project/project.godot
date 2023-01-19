@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Monsters/MonsterActions/HexAction.gd"
 }, {
+"base": "Card",
+"class": "HexCard",
+"language": "GDScript",
+"path": "res://Cards/HexCard.gd"
+}, {
 "base": "Creature",
 "class": "Monster",
 "language": "GDScript",
@@ -89,6 +94,7 @@ _global_script_class_icons={
 "CardManager": "",
 "Creature": "",
 "HexAction": "",
+"HexCard": "",
 "Monster": "",
 "MonsterAction": "",
 "Player": "",

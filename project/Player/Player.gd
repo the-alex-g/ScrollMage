@@ -46,6 +46,8 @@ func resolve_card(card:Card)->void:
 			_attack(card)
 		Card.Type.DEFENSE:
 			_defense(card)
+		Card.Type.HEX:
+			_hex(card)
 
 
 func _attack(card:AttackCard)->void:
@@ -59,6 +61,11 @@ func _attack(card:AttackCard)->void:
 
 func _defense(card:BoostCard)->void:
 	_apply_statuses(card.statuses)
+
+
+func _hex(card:HexCard)->void:
+	if _target != null:
+		_target.hit(0, card.statuses)
 
 
 func _resolve_poison(poison:int)->void:
