@@ -69,6 +69,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Monsters/MonsterActions/MonsterAction.gd"
 }, {
+"base": "MonsterAction",
+"class": "MonsterRitual",
+"language": "GDScript",
+"path": "res://Monsters/MonsterActions/MonsterRitual.gd"
+}, {
 "base": "Creature",
 "class": "Player",
 "language": "GDScript",
@@ -83,6 +88,11 @@ _global_script_classes=[ {
 "class": "RangedAttackAction",
 "language": "GDScript",
 "path": "res://Monsters/MonsterActions/RangedAttackAction.gd"
+}, {
+"base": "Card",
+"class": "RitualCard",
+"language": "GDScript",
+"path": "res://Cards/RitualCard.gd"
 } ]
 _global_script_class_icons={
 "Attack": "",
@@ -97,9 +107,11 @@ _global_script_class_icons={
 "HexCard": "",
 "Monster": "",
 "MonsterAction": "",
+"MonsterRitual": "",
 "Player": "",
 "Projectile": "",
-"RangedAttackAction": ""
+"RangedAttackAction": "",
+"RitualCard": ""
 }
 
 [application]

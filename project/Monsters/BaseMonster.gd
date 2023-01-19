@@ -42,7 +42,7 @@ func _physics_process(delta:float)->void:
 					move_and_collide(Vector2.RIGHT.rotated(rotation) * speed * delta)
 				elif _can_act:
 					_resolve_next_action()
-			MonsterAction.Types.BOOST:
+			MonsterAction.Types.BOOST, MonsterAction.Types.RITUAL:
 				if _can_act:
 					_resolve_next_action()
 	
@@ -71,6 +71,8 @@ func _resolve_next_action()->void:
 			_boost(action)
 		MonsterAction.Types.HEX:
 			_hex(action)
+		MonsterAction.Types.RITUAL:
+			_ritual(action)
 	
 	_actions.append(action)
 	_actions.remove(0)
@@ -101,8 +103,12 @@ func _boost(action:BoostAction)->void:
 
 
 func _hex(action:HexAction)->void:
-	print("hex: ", action.statuses)
 	_target.hit(0, action.statuses)
+
+
+func _ritual(action:MonsterRitual)->void:
+	print("applying ritual: ", action.statuses)
+	_apply_ritual(action.statuses, action.duration)
 
 
 func _on_DetectionRegion_body_entered(body:PhysicsBody2D)->void:

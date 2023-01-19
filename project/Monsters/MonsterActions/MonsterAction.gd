@@ -1,7 +1,7 @@
 class_name MonsterAction
 extends Object
 
-enum Types {ATTACK, RANGED, BOOST, HEX}
+enum Types {ATTACK, RANGED, BOOST, HEX, RITUAL}
 
 var type : int
 var delay_time : float
