@@ -9,7 +9,8 @@ export var action_load_paths := ["res://Monsters/MonsterActions/ActionSets/TestA
 var _max_health := 0
 var _target : Node2D
 var _target_in_range := false
-var _actions : Array
+var _actions := []
+var _lost_actions := []
 var _can_act := true
 
 onready var _detection_region : Area2D = $DetectionRegion
@@ -74,7 +75,8 @@ func _resolve_next_action()->void:
 		MonsterAction.Types.RITUAL:
 			_ritual(action)
 	
-	_actions.append(action)
+	if action.type != MonsterAction.Types.RITUAL:
+		_actions.append(action)
 	_actions.remove(0)
 	
 	var delay_time := action.delay_time
@@ -107,8 +109,13 @@ func _hex(action:HexAction)->void:
 
 
 func _ritual(action:MonsterRitual)->void:
-	print("applying ritual: ", action.statuses)
+	_lost_actions.append(action)
 	_apply_ritual(action.statuses, action.duration)
+	
+	yield(get_tree().create_timer(action.duration), "timeout")
+	
+	_lost_actions.erase(action)
+	_actions.append(action)
 
 
 func _on_DetectionRegion_body_entered(body:PhysicsBody2D)->void:
@@ -125,6 +132,10 @@ func _on_DetectionRegion_body_exited(body:PhysicsBody2D)->void:
 
 func _resolve_poison(poison:int)->void:
 	hit(poison, {})
+
+
+func _draw()->void:
+	draw_circle(Vector2.ZERO, 8, Color.red)
 
 
 func hit(damage:int, applied_statuses:Dictionary)->void:

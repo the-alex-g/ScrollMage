@@ -6,39 +6,38 @@
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 2 )
 
-[node name="HandContainer" type="HBoxContainer" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 86.0
-margin_top = -191.0
-margin_right = -82.0
-
-[node name="DisplayCard1" parent="HandContainer" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 282.0
-margin_bottom = 191.0
-size_flags_horizontal = 3
-
-[node name="DisplayCard2" parent="HandContainer" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 286.0
-margin_right = 569.0
-margin_bottom = 191.0
-size_flags_horizontal = 3
-
-[node name="DisplayCard3" parent="HandContainer" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 573.0
-margin_right = 856.0
-margin_bottom = 191.0
-size_flags_horizontal = 3
-
 [node name="DeckSizeLabel" type="Label" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -14.0
 margin_right = 40.0
+
+[node name="HandContainer" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -140.0
+alignment = 1
+
+[node name="Card1" parent="HandContainer" instance=ExtResource( 1 )]
+margin_left = 358.0
+margin_right = 458.0
+margin_bottom = 140.0
+
+[node name="Card2" parent="HandContainer" instance=ExtResource( 1 )]
+margin_left = 462.0
+margin_right = 562.0
+margin_bottom = 140.0
+
+[node name="Card3" parent="HandContainer" instance=ExtResource( 1 )]
+margin_left = 566.0
+margin_right = 666.0
+margin_bottom = 140.0
+
+[node name="LostSizeLabel" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -14.0

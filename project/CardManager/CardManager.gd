@@ -17,6 +17,7 @@ var _deck := [
 ]
 var _cards := []
 var _lost := []
+var _rituals := []
 var _can_cast := true
 var info : Dictionary setget , _get_info
 var statuses := {}
@@ -64,8 +65,16 @@ func _use_slot(slot_index:int)->void:
 
 
 func _use_card(slot_index:int)->void:
-	_deck.append(_cards[slot_index])
+	var card : Card = _cards[slot_index]
 	_cards[slot_index] = null
+	
+	if card.type == Card.Type.RITUAL:
+		_rituals.append(card)
+		yield(get_tree().create_timer(card.duration), "timeout")
+		_rituals.erase(card)
+		_deck.append(card)
+	else:
+		_deck.append(card)
 
 
 func _lose_card()->void:
@@ -91,4 +100,4 @@ func _refresh_card()->void:
 
 
 func _get_info()->Dictionary:
-	return {"hand":_cards, "deck_size":_deck.size(), "lost_cards":_lost.size()}
+	return {"hand":_cards, "deck_size":_deck.size(), "lost_cards":_lost.size() + _rituals.size()}

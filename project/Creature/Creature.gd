@@ -26,7 +26,6 @@ func _decay_statuses()->void:
 	var finished_rituals := []
 	for ritual in rituals:
 		_apply_statuses(ritual.statuses, true)
-		print("block is now ", statuses.block)
 		ritual.duration -= 1
 		if ritual.duration <= 0:
 			finished_rituals.append(ritual)
