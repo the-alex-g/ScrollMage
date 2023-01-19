@@ -6,6 +6,7 @@ export var status_decay_time := 1.0
 var statuses := {
 	"block":0,
 	"poison":0,
+	"swift_act":0,
 }
 
 

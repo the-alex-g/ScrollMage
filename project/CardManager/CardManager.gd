@@ -12,12 +12,14 @@ var _deck := [
 	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
 	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
 	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
+	BoostCard.new("Swift Casting", "3 swift cast", 1.0, [], {"swift_act":3}),
 	HexCard.new("Poison", "3 poison", 1.0, [], {"poison":3}),
 ]
 var _cards := []
 var _lost := []
 var _can_cast := true
 var info : Dictionary setget , _get_info
+var statuses := {}
 
 onready var _cast_timer : Timer = $CastTimer
 
@@ -43,6 +45,9 @@ func _use_slot(slot_index:int)->void:
 	if _cards[slot_index] != null:
 		
 		var wait_time : float = _cards[slot_index].cast_time
+		if statuses.swift_act > 0:
+			wait_time *= 0.75
+		
 		_can_cast = false
 		_cast_timer.start(wait_time / 2.0)
 		

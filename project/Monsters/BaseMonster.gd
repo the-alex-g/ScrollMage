@@ -75,7 +75,11 @@ func _resolve_next_action()->void:
 	_actions.append(action)
 	_actions.remove(0)
 	
-	_action_timer.start(action.delay_time)
+	var delay_time := action.delay_time
+	if statuses.swift_act > 0:
+		delay_time *= 0.75
+	
+	_action_timer.start(delay_time)
 	yield(_action_timer, "timeout")
 	_can_act = true
 

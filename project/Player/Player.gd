@@ -1,6 +1,8 @@
 class_name Player
 extends Creature
 
+signal update_statuses(new_statuses)
+
 export var speed := 200.0
 
 var _target : Node2D = null
@@ -22,6 +24,8 @@ func _physics_process(delta:float)->void:
 	_get_new_target()
 	if _target != null:
 		_hinge.rotation = get_angle_to(_target.global_position)
+	
+	emit_signal("update_statuses", statuses)
 
 
 func _get_new_target()->void:

@@ -15,3 +15,7 @@ func _process(_delta:float)->void:
 
 func _on_CardManager_used_card(card:Card)->void:
 	_player.resolve_card(card)
+
+
+func _on_Player_update_statuses(new_statuses:Dictionary)->void:
+	_card_manager.statuses = new_statuses

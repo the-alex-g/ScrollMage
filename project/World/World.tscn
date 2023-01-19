@@ -22,4 +22,5 @@ health = 10
 detection_distance = 100
 speed = 50
 
+[connection signal="update_statuses" from="Player" to="." method="_on_Player_update_statuses"]
 [connection signal="used_card" from="CardManager" to="." method="_on_CardManager_used_card"]
