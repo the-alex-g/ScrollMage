@@ -11,10 +11,10 @@ func build(card:Card)->void:
 		_clear_card()
 	else:
 		_title_label.text = card.card_name
-		_cast_time_label.text = str(int(card.cast_time * 2))
-		
+		_cast_time_label.text = str(int(card.cast_time * 4))
+		_flag_label.text = ""
 		for flag in card.flags:
-			_flag_label.text += str(flag) + " "
+			_flag_label.text += str(Card.Flags.keys()[flag]).capitalize() + " "
 		
 		_description_label.text = card.card_text
 		modulate = Color(1, 1, 1, 1)

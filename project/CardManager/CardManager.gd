@@ -3,29 +3,23 @@ extends Node
 
 signal used_card(card)
 
-var _deck := [
-	AttackCard.new("Attack", "1 damage", 0.5, [], {}, 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
-	AttackCard.new("Attack", "1 damage", 0.5, [], {}, 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
-	AttackCard.new("Attack", "1 damage", 0.5, [], {}, 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
-	AttackCard.new("Attack", "1 damage", 0.5, [], {}, 1, "res://Attacks/Projectiles/BaseProjectile.tscn"),
-	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
-	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
-	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
-	BoostCard.new("Defend", "3 block", 0.5, [], {"block":3}),
-	HexCard.new("Poison", "3 poison", 1.0, [], {"poison":3}),
-	RitualCard.new("Shielding Ritual", "1 block for one minute", 2.0, [], {"block":1}, 60),
-]
+var _deck := []
 var _cards := []
 var _lost := []
 var _rituals := []
 var _can_cast := true
 var info : Dictionary setget , _get_info
+var _library := Library.new()
 var statuses := {}
 
 onready var _cast_timer : Timer = $CastTimer
 
 
 func _ready()->void:
+	for i in 4:
+		_deck.append(_library.get_attack("Slash"))
+		_deck.append(_library.get_boost("Shield"))
+	
 	_deck.shuffle()
 	for i in 3:
 		_cards.append(_deck[0])
