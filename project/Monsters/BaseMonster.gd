@@ -97,6 +97,8 @@ func _ranged_attack(action:RangedAttackAction)->void:
 	attack.damage = action.damage
 	attack.from = _ranged_attack_spawn_point.global_position
 	attack.target_point = _target.global_position
+	attack.statuses = action.statuses
+	_apply_statuses(action.attacker_boosts)
 	get_parent().add_child(attack)
 
 

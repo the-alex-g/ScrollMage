@@ -62,6 +62,8 @@ func _attack(card:AttackCard)->void:
 		attack.damage = card.damage
 		attack.from = _attack_point.global_position
 		attack.target_point = _target.global_position
+		attack.statuses = card.statuses
+		_apply_statuses(card.attacker_boosts)
 		get_parent().add_child(attack)
 
 
