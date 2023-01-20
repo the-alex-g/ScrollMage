@@ -53,7 +53,7 @@ func _physics_process(delta:float)->void:
 
 func _is_target_in_LoS()->bool:
 	if _target != null:
-		var intersection := get_world_2d().direct_space_state.intersect_ray(global_position, _target.global_position, [self], 2)
+		var intersection := get_world_2d().direct_space_state.intersect_ray(global_position, _target.global_position, [self])
 		if intersection.size() > 0:
 			return intersection.collider == _target
 	return false
