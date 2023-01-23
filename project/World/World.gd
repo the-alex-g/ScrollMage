@@ -19,3 +19,11 @@ func _on_CardManager_used_card(card:Card)->void:
 
 func _on_Player_update_statuses(new_statuses:Dictionary)->void:
 	_card_manager.statuses = new_statuses
+
+
+func _on_Player_damage()->void:
+	_card_manager.damage()
+
+
+func _on_Player_update_health(new_health:int, max_health:int)->void:
+	_hud.update_health(new_health, max_health)

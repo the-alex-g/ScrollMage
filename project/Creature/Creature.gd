@@ -2,6 +2,7 @@ class_name Creature
 extends KinematicBody2D
 
 export var status_decay_time := 1.0
+export var health := 0
 
 var statuses := {
 	"block":0,
@@ -9,10 +10,18 @@ var statuses := {
 	"swift_act":0,
 }
 var rituals := []
+var _status_decay_timer := Timer.new()
+var _target : Node2D
+
+onready var _max_health := health
 
 
 func _ready()->void:
-	_decay_statuses()
+	_status_decay_timer.wait_time = status_decay_time
+	# warning-ignore:return_value_discarded
+	_status_decay_timer.connect("timeout", self, "_decay_statuses")
+	add_child(_status_decay_timer)
+	_status_decay_timer.start()
 
 
 func _decay_statuses()->void:
@@ -32,14 +41,10 @@ func _decay_statuses()->void:
 	
 	for ritual in finished_rituals:
 		rituals.erase(ritual)
-	
-	# wait, then run again
-	yield(get_tree().create_timer(status_decay_time), "timeout")
-	_decay_statuses()
 
 
-func _resolve_poison(_poison:int)->void:
-	pass
+func _resolve_poison(poison:int)->void:
+	hit(poison, {}, false)
 
 
 func _apply_statuses(new_statuses:Dictionary, ritual := false)->void:
@@ -56,5 +61,13 @@ func _apply_ritual(ritual_statuses:Dictionary, duration:int)->void:
 	rituals.append(ritual)
 
 
-func hit(_damage:int, applied_statuses:Dictionary)->void:
+func _is_target_in_LoS()->bool:
+	if _target != null:
+		var intersection := get_world_2d().direct_space_state.intersect_ray(global_position, _target.global_position, [self])
+		if intersection.size() > 0:
+			return intersection.collider == _target
+	return false
+
+
+func hit(_damage:int, applied_statuses := {}, _blockable := true)->void:
 	_apply_statuses(applied_statuses)

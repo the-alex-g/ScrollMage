@@ -96,3 +96,14 @@ func _refresh_card()->void:
 
 func _get_info()->Dictionary:
 	return {"hand":_cards, "deck_size":_deck.size(), "lost_cards":_lost.size() + _rituals.size()}
+
+
+func damage()->void:
+	_lose_card()
+
+
+func heal(amount := 0)->void:
+	if amount == 0:
+		amount = _lost.size()
+	for _i in amount:
+		_refresh_card()

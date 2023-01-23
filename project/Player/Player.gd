@@ -2,10 +2,10 @@ class_name Player
 extends Creature
 
 signal update_statuses(new_statuses)
+signal update_health(new_health, new_max)
+signal damage
 
 export var speed := 200.0
-
-var _target : Node2D = null
 
 onready var _attack_range : Area2D = $AttackRange
 onready var _hinge : Node2D = $Hinge
@@ -57,7 +57,7 @@ func resolve_card(card:Card)->void:
 
 
 func _attack(card:AttackCard)->void:
-	if _target != null:
+	if _is_target_in_LoS():
 		var attack : Attack = load(card.projectile_path).instance()
 		attack.damage = card.damage
 		attack.from = _attack_point.global_position
@@ -80,12 +80,15 @@ func _ritual(card:RitualCard)->void:
 	_apply_ritual(card.statuses, card.duration)
 
 
-func _resolve_poison(poison:int)->void:
-	print("poisoned! ", poison)
-
-
-func hit(damage:int, applied_statuses:Dictionary)->void:
+func hit(damage:int, applied_statuses := {}, blockable := true)->void:
 	.hit(damage, applied_statuses)
 	# warning-ignore:narrowing_conversion
-	damage = max(0, damage - statuses.block)
-	print(damage)
+	if blockable:
+		damage = max(0, damage - statuses.block)
+	health -= damage
+	
+	while health <= 0:
+		emit_signal("damage")
+		health += _max_health
+	
+	emit_signal("update_health", health, _max_health)

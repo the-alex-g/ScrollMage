@@ -1,13 +1,10 @@
 class_name Monster
 extends Creature
 
-export var health := 0
 export var detection_distance := 0
 export var speed := 0
 export var action_load_paths := ["res://Monsters/MonsterActions/ActionSets/TestActionSet.gd"]
 
-var _max_health := 0
-var _target : Node2D
 var _target_in_range := false
 var _actions := []
 var _lost_actions := []
@@ -49,14 +46,6 @@ func _physics_process(delta:float)->void:
 	
 	elif not _target_in_range:
 		_target = null
-
-
-func _is_target_in_LoS()->bool:
-	if _target != null:
-		var intersection := get_world_2d().direct_space_state.intersect_ray(global_position, _target.global_position, [self])
-		if intersection.size() > 0:
-			return intersection.collider == _target
-	return false
 
 
 func _resolve_next_action()->void:
@@ -132,16 +121,19 @@ func _on_DetectionRegion_body_exited(body:PhysicsBody2D)->void:
 			_target_in_range = false
 
 
-func _resolve_poison(poison:int)->void:
-	hit(poison, {})
+func _die()->void:
+	queue_free()
 
 
 func _draw()->void:
 	draw_circle(Vector2.ZERO, 8, Color.red)
 
 
-func hit(damage:int, applied_statuses:Dictionary)->void:
+func hit(damage:int, applied_statuses := {}, blockable := true)->void:
 	.hit(damage, applied_statuses)
 	# warning-ignore:narrowing_conversion
-	health -= max(0, damage - statuses.block)
-	print(health)
+	if blockable:
+		health -= max(0, damage - statuses.block)
+	
+	if health <= 0:
+		_die()
