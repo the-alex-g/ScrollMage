@@ -72,7 +72,7 @@ func _defense(card:BoostCard)->void:
 
 
 func _hex(card:HexCard)->void:
-	if _target != null:
+	if _is_target_in_LoS():
 		_target.hit(0, card.statuses)
 
 

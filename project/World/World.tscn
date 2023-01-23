@@ -346,9 +346,6 @@ position = Vector2( 150, 176 )
 
 [node name="Monster" parent="." instance=ExtResource( 5 )]
 position = Vector2( 357, 98 )
-health = 10
-detection_distance = 100
-speed = 50
 
 [node name="HUD" parent="." instance=ExtResource( 4 )]
 

@@ -10,23 +10,15 @@ var statuses := {
 	"swift_act":0,
 }
 var rituals := []
-var _status_decay_timer := Timer.new()
 var _target : Node2D
 
 onready var _max_health := health
-
-
-func _ready()->void:
-	_status_decay_timer.wait_time = status_decay_time
-	# warning-ignore:return_value_discarded
-	_status_decay_timer.connect("timeout", self, "_decay_statuses")
-	add_child(_status_decay_timer)
-	_status_decay_timer.start()
+onready var _status_decay_timer : Timer = $StatusDecayTimer
+onready var _status_display : StatusDisplay = $StatusDisplay
 
 
 func _decay_statuses()->void:
-	if statuses.poison > 0:
-		_resolve_poison(statuses.poison)
+	_resolve_statuses()
 	
 	# decay
 	for status in statuses:
@@ -41,10 +33,27 @@ func _decay_statuses()->void:
 	
 	for ritual in finished_rituals:
 		rituals.erase(ritual)
+	
+	_update_status_display()
+
+
+func _resolve_statuses()->void:
+	if statuses.poison > 0:
+		_resolve_poison(statuses.poison)
 
 
 func _resolve_poison(poison:int)->void:
 	hit(poison, {}, false)
+
+
+func _update_status_display()->void:
+	var statuses_to_update := []
+	
+	for status in statuses:
+		if statuses[status] > 0:
+			statuses_to_update.append(status)
+	
+	_status_display.update_statuses(statuses_to_update)
 
 
 func _apply_statuses(new_statuses:Dictionary, ritual := false)->void:
@@ -54,6 +63,8 @@ func _apply_statuses(new_statuses:Dictionary, ritual := false)->void:
 				statuses[status] = new_statuses[status]
 		else:
 			statuses[status] += new_statuses[status]
+	
+	_update_status_display()
 
 
 func _apply_ritual(ritual_statuses:Dictionary, duration:int)->void:
@@ -71,3 +82,7 @@ func _is_target_in_LoS()->bool:
 
 func hit(_damage:int, applied_statuses := {}, _blockable := true)->void:
 	_apply_statuses(applied_statuses)
+
+
+func _on_StatusDecayTimer_timeout()->void:
+	_decay_statuses()

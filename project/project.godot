@@ -98,6 +98,11 @@ _global_script_classes=[ {
 "class": "RitualCard",
 "language": "GDScript",
 "path": "res://Cards/RitualCard.gd"
+}, {
+"base": "Node2D",
+"class": "StatusDisplay",
+"language": "GDScript",
+"path": "res://Creature/StatusDisplay/StatusDisplay.gd"
 } ]
 _global_script_class_icons={
 "Attack": "",
@@ -117,7 +122,8 @@ _global_script_class_icons={
 "Player": "",
 "Projectile": "",
 "RangedAttackAction": "",
-"RitualCard": ""
+"RitualCard": "",
+"StatusDisplay": ""
 }
 
 [application]

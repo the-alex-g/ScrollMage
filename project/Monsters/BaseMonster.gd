@@ -43,9 +43,10 @@ func _physics_process(delta:float)->void:
 			MonsterAction.Types.BOOST, MonsterAction.Types.RITUAL:
 				if _can_act:
 					_resolve_next_action()
-	
 	elif not _target_in_range:
 		_target = null
+	
+	_status_display.rotation = -rotation
 
 
 func _resolve_next_action()->void:
@@ -103,7 +104,10 @@ func _ritual(action:MonsterRitual)->void:
 	_lost_actions.append(action)
 	_apply_ritual(action.statuses, action.duration)
 	
-	yield(get_tree().create_timer(action.duration), "timeout")
+	var timer := Timer.new()
+	add_child(timer)
+	timer.start(action.duration)
+	yield(timer, "timeout")
 	
 	_lost_actions.erase(action)
 	_actions.append(action)
