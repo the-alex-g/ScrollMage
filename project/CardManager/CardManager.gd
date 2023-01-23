@@ -20,6 +20,7 @@ func _ready()->void:
 		_deck.append(_library.get_attack("Slash"))
 		_deck.append(_library.get_boost("Shield"))
 	_deck.append(_library.get_ritual("Armor Script"))
+	_deck.append(_library.get_hex("Poison"))
 	
 	_deck.shuffle()
 	for i in 3:
