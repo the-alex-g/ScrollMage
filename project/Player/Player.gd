@@ -19,7 +19,7 @@ func _physics_process(delta:float)->void:
 	).normalized()
 	
 	# warning-ignore:return_value_discarded
-	move_and_collide(direction * speed * delta)
+	move_and_collide(direction * speed * delta * _get_speed_modifier())
 	
 	_get_new_target()
 	if _target != null:
@@ -59,7 +59,7 @@ func resolve_card(card:Card)->void:
 func _attack(card:AttackCard)->void:
 	if _is_target_in_LoS():
 		var attack : Attack = load(card.projectile_path).instance()
-		attack.damage = card.damage
+		attack.damage = _mod_damage(card.damage)
 		attack.from = _attack_point.global_position
 		attack.target_point = _target.global_position
 		attack.statuses = card.statuses
@@ -82,13 +82,25 @@ func _ritual(card:RitualCard)->void:
 
 func hit(damage:int, applied_statuses := {}, blockable := true)->void:
 	.hit(damage, applied_statuses)
-	# warning-ignore:narrowing_conversion
-	if blockable:
+	
+	if blockable and damage > 0:
+		# warning-ignore:narrowing_conversion
 		damage = max(0, damage - statuses.block)
+		if statuses.corrosion > 0:
+			damage += 1
+		if statuses.vulnerable > 0:
+			# warning-ignore:narrowing_conversion
+			damage *= 1.25
+	
 	health -= damage
 	
 	while health <= 0:
 		emit_signal("damage")
 		health += _max_health
 	
+	emit_signal("update_health", health, _max_health)
+
+
+func heal(amount:int)->void:
+	.heal(amount)
 	emit_signal("update_health", health, _max_health)

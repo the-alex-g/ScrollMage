@@ -37,7 +37,7 @@ func _physics_process(delta:float)->void:
 			MonsterAction.Types.ATTACK, MonsterAction.Types.RANGED, MonsterAction.Types.HEX:
 				if global_position.distance_squared_to(_target.global_position) > pow(next_action.attack_range, 2):
 					# warning-ignore:return_value_discarded
-					move_and_collide(Vector2.RIGHT.rotated(rotation) * speed * delta)
+					move_and_collide(Vector2.RIGHT.rotated(rotation) * speed * delta * _get_speed_modifier())
 				elif _can_act:
 					_resolve_next_action()
 			MonsterAction.Types.BOOST, MonsterAction.Types.RITUAL:
@@ -70,8 +70,10 @@ func _resolve_next_action()->void:
 	_actions.remove(0)
 	
 	var delay_time := action.delay_time
-	if statuses.swift_act > 0:
-		delay_time *= 0.75
+	if statuses.haste > 0:
+		delay_time *= 0.5
+	if statuses.slow > 0:
+		delay_time *= 1.5
 	
 	_action_timer.start(delay_time)
 	yield(_action_timer, "timeout")
@@ -79,12 +81,12 @@ func _resolve_next_action()->void:
 
 
 func _melee_attack(action:AttackAction)->void:
-	_target.hit(action.damage, action.statuses)
+	_target.hit(_mod_damage(action.damage), action.statuses)
 
 
 func _ranged_attack(action:RangedAttackAction)->void:
 	var attack : Attack = load(action.projectile_path).instance()
-	attack.damage = action.damage
+	attack.damage = _mod_damage(action.damage)
 	attack.from = _ranged_attack_spawn_point.global_position
 	attack.target_point = _target.global_position
 	attack.statuses = action.statuses
@@ -135,9 +137,18 @@ func _draw()->void:
 
 func hit(damage:int, applied_statuses := {}, blockable := true)->void:
 	.hit(damage, applied_statuses)
+	
 	# warning-ignore:narrowing_conversion
-	if blockable:
-		health -= max(0, damage - statuses.block)
+	if blockable and damage > 0:
+		# warning-ignore:narrowing_conversion
+		damage = max(0, damage - statuses.block)
+		if statuses.corrosion > 0:
+			damage += 1
+		if statuses.vulnerable > 0:
+			# warning-ignore:narrowing_conversion
+			damage *= 1.25
+	
+	health -= damage
 	
 	if health <= 0:
 		_die()

@@ -21,6 +21,7 @@ func _ready()->void:
 		_deck.append(_library.get_boost("Shield"))
 	_deck.append(_library.get_ritual("Armor Script"))
 	_deck.append(_library.get_hex("Poison"))
+	_deck.append(_library.get_boost("Heal"))
 	
 	_deck.shuffle()
 	for i in 3:
@@ -42,8 +43,10 @@ func _use_slot(slot_index:int)->void:
 	if _cards[slot_index] != null:
 		
 		var wait_time : float = _cards[slot_index].cast_time
-		if statuses.swift_act > 0:
-			wait_time *= 0.75
+		if statuses.haste > 0:
+			wait_time *= 0.5
+		if statuses.slow > 0:
+			wait_time *= 1.5
 		
 		_can_cast = false
 		_cast_timer.start(wait_time / 2.0)

@@ -8,6 +8,7 @@ var attacks := {
 var boosts := {
 	#"":{"text":"", "casting_time":0.0, "flags":[], "statuses":{}},
 	"Shield":{"text":"+3 block", "casting_time":0.75, "flags":[Card.Flags.RUNE], "statuses":{"block":3}},
+	"Heal":{"text":"Heal 3", "casting_time":1.0, "flags":[Card.Flags.GLYPH], "statuses":{"heal":3}},
 }
 var hexes := {
 	#"":{"text":"", "casting_time":0.0, "flags":[], "statuses":{}},

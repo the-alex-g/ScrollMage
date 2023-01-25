@@ -16,7 +16,6 @@ onready var _status_spacing := (STATUS_SPACING_PX / radius * 360) / (TAU * arc)
 
 
 func _ready()->void:
-	print(_status_spacing)
 	var curve := Curve2D.new()
 	for i in POINTS + 1:
 		var point := Vector2.RIGHT * radius
