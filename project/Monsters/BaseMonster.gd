@@ -14,10 +14,15 @@ onready var _detection_region : Area2D = $DetectionRegion
 onready var _detection_region_collision : CollisionShape2D = $DetectionRegion/CollisionShape2D
 onready var _action_timer : Timer = $ActionTimer
 onready var _ranged_attack_spawn_point : Position2D = $RangedAttackSpawnPoint
+onready var _health_bar : TextureProgress = $StatusDisplay/HealthBar
+onready var _tween : Tween = $Tween
 
 
 func _ready()->void:
 	_max_health = health
+	
+	_health_bar.max_value = _max_health
+	_health_bar.value = health
 	
 	for path in action_load_paths:
 		_actions.append_array(load(path).new().actions)
@@ -131,8 +136,15 @@ func _die()->void:
 	queue_free()
 
 
+func _update_health()->void:
+	# warning-ignore:return_value_discarded
+	_tween.interpolate_property(_health_bar, "value", null, health, 0.5, Tween.TRANS_QUAD)
+	# warning-ignore:return_value_discarded
+	_tween.start()
+
+
 func _draw()->void:
-	draw_circle(Vector2.ZERO, 8, Color.red)
+	draw_circle(Vector2.ZERO, 10, Color.red)
 
 
 func hit(damage:int, applied_statuses := {}, blockable := true)->void:
@@ -149,6 +161,12 @@ func hit(damage:int, applied_statuses := {}, blockable := true)->void:
 			damage *= 1.25
 	
 	health -= damage
+	_update_health()
 	
 	if health <= 0:
 		_die()
+
+
+func heal(amount:int)->void:
+	.heal(amount)
+	_update_health()

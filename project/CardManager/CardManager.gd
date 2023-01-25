@@ -99,7 +99,13 @@ func _refresh_card()->void:
 
 
 func _get_info()->Dictionary:
-	return {"hand":_cards, "deck_size":_deck.size(), "lost_cards":_lost.size() + _rituals.size()}
+	return {
+		"hand":_cards,
+		"deck_size":_deck.size(),
+		"lost_cards":_lost.size() + _rituals.size(),
+		"time_left":_cast_timer.time_left,
+		"total_cast_time":_cast_timer.wait_time,
+	}
 
 
 func damage()->void:

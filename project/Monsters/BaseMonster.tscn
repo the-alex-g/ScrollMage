@@ -1,7 +1,16 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Creature/Creature.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Monsters/BaseMonster.gd" type="Script" id=2]
+[ext_resource path="res://Monsters/MonsterHealthBar.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 32, 6 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 6, 32, 6 )
 
 [sub_resource type="CircleShape2D" id=2]
 
@@ -17,6 +26,14 @@ action_load_paths = [ "res://Monsters/MonsterActions/ActionSets/TestActionSet.gd
 [node name="StatusDisplay" parent="." index="2"]
 arc = 260
 
+[node name="HealthBar" type="TextureProgress" parent="StatusDisplay" index="2"]
+margin_left = -16.0
+margin_top = -20.0
+margin_right = 16.0
+margin_bottom = -12.0
+texture_under = SubResource( 3 )
+texture_progress = SubResource( 4 )
+
 [node name="DetectionRegion" type="Area2D" parent="." index="3"]
 collision_layer = 0
 collision_mask = 2
@@ -29,6 +46,8 @@ one_shot = true
 
 [node name="RangedAttackSpawnPoint" type="Position2D" parent="." index="5"]
 position = Vector2( 25, 0 )
+
+[node name="Tween" type="Tween" parent="." index="6"]
 
 [connection signal="body_entered" from="DetectionRegion" to="." method="_on_DetectionRegion_body_entered"]
 [connection signal="body_exited" from="DetectionRegion" to="." method="_on_DetectionRegion_body_exited"]
